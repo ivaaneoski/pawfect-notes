@@ -1,0 +1,40 @@
+:root {
+  /* PawfectNotes Cream */
+  --color-cream: #F5F0E8;
+  /* PawfectNotes Ink */
+  --color-ink: #1A1A14;
+  /* PawfectNotes Blush */
+  --color-blush: #E8A5A0;
+  /* PawfectNotes Dusty Rose */
+  --color-dusty-rose: #C97D7D;
+  /* PawfectNotes Lavender Mist */
+  --color-lavender: #C8C0D8;
+  /* PawfectNotes Sage */
+  --color-sage: #A8B89A;
+  
+  /* Neutral Colors */
+  --color-soft-white: #FDFAF5;
+  --color-warm-gray: #C2BAB0;
+  --color-deep-taupe: #6B5E56;
+  --color-charcoal-ink: #2E2820;
+
+  /* Typography */
+  --font-display: 'Space Mono', monospace;
+  --font-accent: 'Dancing Script', Brush Script MT, cursive;
+  --font-body: 'Space Mono', monospace;
+  --font-mono: 'Space Mono', monospace;
+  
+  /* Layout */
+  --border-radius-card: 2px;
+  --border-radius-pill: 100px;
+  --border-color-default: var(--color-warm-gray);
+  
+  /* Spacing */
+  --spacing-1: 8px;
+  --spacing-2: 16px;
+  --spacing-3: 24px;
+  --spacing-4: 32px;
+  --spacing-5: 40px;
+  --spacing-6: 48px;
+  --spacing-8: 64px;
+}

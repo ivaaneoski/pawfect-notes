@@ -1,0 +1,67 @@
+.btn {
+  font-family: var(--font-body);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  border-radius: 0; /* Matches brand flat edge style */
+}
+
+/* Primary Button */
+.primary {
+  background-color: var(--color-dusty-rose);
+  color: var(--color-soft-white);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 14px 32px;
+  border: none;
+}
+
+.primary:hover {
+  background-color: #B06868; /* Darken manually */
+}
+
+.primary:disabled {
+  background-color: var(--color-warm-gray);
+  cursor: not-allowed;
+}
+
+/* Secondary Button */
+.secondary {
+  background-color: transparent;
+  border: 1.5px solid var(--color-ink);
+  color: var(--color-ink);
+  font-weight: 400;
+  text-transform: uppercase;
+  padding: 14px 32px;
+}
+
+.secondary:hover {
+  background-color: rgba(245, 240, 232, 0.5); /* slight cream tint overlay */
+}
+
+.secondary:disabled {
+  border-color: var(--color-warm-gray);
+  color: var(--color-warm-gray);
+  cursor: not-allowed;
+}
+
+/* Ghost Button */
+.ghost {
+  background-color: transparent;
+  color: var(--color-deep-taupe);
+  border: none;
+  padding: 8px 16px;
+}
+
+.ghost:hover {
+  text-decoration: underline;
+}
+
+.ghost:disabled {
+  color: var(--color-warm-gray);
+  cursor: not-allowed;
+  text-decoration: none;
+}

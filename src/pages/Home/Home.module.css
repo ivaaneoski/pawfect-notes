@@ -1,0 +1,137 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  padding: var(--spacing-3) var(--spacing-4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: var(--font-accent);
+  font-size: 2rem;
+  color: var(--color-ink);
+}
+
+.nav {
+  display: flex;
+  gap: var(--spacing-3);
+}
+
+.navLink {
+  font-family: var(--font-body);
+  color: var(--color-deep-taupe);
+  transition: color 0.15s ease;
+}
+
+.navLink:hover {
+  color: var(--color-dusty-rose);
+}
+
+.hero {
+  text-align: center;
+  padding: var(--spacing-8) var(--spacing-4);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.heroTitle {
+  font-family: 'Pixelify Sans', cursive;
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  white-space: nowrap;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-2);
+  text-shadow: 4px 4px 0px rgba(0,0,0,0.15);
+}
+
+.heroSubtitle {
+  font-size: 1.25rem;
+  color: var(--color-deep-taupe);
+  margin-bottom: var(--spacing-4);
+}
+
+.ctaButton {
+  display: inline-block;
+  background-color: var(--color-dusty-rose);
+  color: var(--color-soft-white);
+  font-family: var(--font-body);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 14px 32px;
+  border-radius: 0;
+  transition: background-color 0.15s ease;
+  margin-top: var(--spacing-2);
+}
+
+.ctaButton:hover {
+  background-color: #B06868;
+}
+
+.features {
+  display: flex;
+  justify-content: space-around;
+  padding: var(--spacing-6) var(--spacing-4);
+  background-color: var(--color-soft-white);
+  gap: var(--spacing-4);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.feature {
+  text-align: center;
+  flex: 1;
+}
+
+.icon {
+  font-size: 2rem;
+  margin-bottom: var(--spacing-2);
+}
+
+.featureTitle {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  margin-bottom: var(--spacing-1);
+}
+
+.featureDesc {
+  color: var(--color-deep-taupe);
+}
+
+.occasions {
+  padding: var(--spacing-6) var(--spacing-4);
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.occasionsTitle {
+  font-family: var(--font-display);
+  margin-bottom: var(--spacing-4);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-3);
+}
+
+.occasionCard {
+  background-color: var(--color-soft-white);
+  border: 1px solid var(--color-warm-gray);
+  padding: var(--spacing-4);
+  border-radius: var(--border-radius-card);
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+  cursor: pointer;
+}
+
+.occasionCard:hover {
+  border-color: var(--color-dusty-rose);
+  transform: translateY(-2px);
+}
