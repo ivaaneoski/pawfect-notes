@@ -1,73 +1,58 @@
-# React + TypeScript + Vite
+# 🐾 PawfectNotes
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**"Send love that stays."**
 
-Currently, two official plugins are available:
+PawfectNotes is a beautifully crafted, pixel-art themed web application that lets you create personalized, digital greeting pages for your loved ones. From birthdays to anniversaries, you can instantly assemble warm, handcrafted cards packed with your favorite photos, emotional messages, YouTube embeds, and... exactly the right amount of pixel cats!
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Features
 
-## React Compiler
+- **Immersive 4-Step Creator Wizard**: Seamlessly click together a fully responsive digital greeting card.
+- **7 Curated Pixel-Aesthetic Themes**: Including *Rose Garden*, *Midnight Bloom*, and the vibrant *Pixel Arcade*.
+- **Interactive Cat Physics**: Features a custom-built fluid 60fps *Framer Motion* physics engine raining interactive, draggable pixel cats directly on the landing page.
+- **Smart Sticker Scattering**: Select from 8 custom pixel-art sprites (Calico, Siamese, Yarnballs) that intelligently scatter around the bounding boxes of your images and messages.
+- **Serverless Link Generation**: Deploys via Vercel Edge functions directly into an Upstash Redis database, yielding beautifully short, copy-pasteable URLs (`/g/xyz123`) that embed massively compressed payloads without the need for traditional backend routing.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tech Stack
 
-## Expanding the ESLint configuration
+- **Framework**: React 18 + Vite
+- **Language**: TypeScript
+- **Styling**: Vanilla CSS Modules (No Tailwind, fully custom token architecture)
+- **Physics/Animation**: Framer Motion
+- **Database**: Upstash Serverless Redis (via `@vercel/kv` & `@upstash/redis` endpoints)
+- **Typography**: Space Mono & Pixelify Sans (Google Fonts)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1. Clone the repository
+```bash
+git clone https://github.com/ivaaneoski/pawfect-notes.git
+cd pawfect-notes
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 2. Install dependencies
+```bash
+npm install
 ```
+
+### 3. Environment Variables (Database Setup)
+To enable the short URL generation locally, grab a free serverless Redis database from [Upstash](https://upstash.com/) (or connect standard Vercel KV through the Vercel Dashboard).
+Create a `.env.local` file at the root:
+```env
+UPSTASH_REDIS_REST_URL="your-url-here"
+UPSTASH_REDIS_REST_TOKEN="your-token-here"
+```
+
+### 4. Run the Dev Server
+```bash
+npm run dev
+```
+Navigate to `http://localhost:5173/` and start tossing pixel cats around!
+
+## 📦 Deployment
+This app is optimally configured to deploy natively to **Vercel**. 
+1. Import the repository in Vercel.
+2. Under the "Storage" tab, attach the **Upstash Serverless Redis** marketplace integration.
+3. The included `/api` folder and `vercel.json` rewrite routing will automatically configure the serverless functions necessary to power your global links!
+
+---
+*Made with ♥ by [ivaan](https://github.com/ivaaneoski)*
