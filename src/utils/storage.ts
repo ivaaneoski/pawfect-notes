@@ -3,6 +3,22 @@ import type { Greeting, Session } from '../types/greeting';
 const SESSION_KEY = 'pawfect_session';
 const GREETING_PREFIX = 'greeting_';
 
+export const encodeDataToUrl = (data: any): string => {
+  try {
+    return encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
+  } catch (e) {
+    return '';
+  }
+};
+
+export const decodeDataFromUrl = (encoded: string): any => {
+  try {
+    return JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(encoded)))));
+  } catch (e) {
+    return null;
+  }
+};
+
 export const getSession = (): Session => {
   try {
     const data = localStorage.getItem(SESSION_KEY);

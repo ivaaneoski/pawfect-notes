@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getGreeting } from '../../utils/storage';
+import { getGreeting, decodeDataFromUrl } from '../../utils/storage';
 import type { Greeting } from '../../types/greeting';
 import { Button } from '../../components/ui/Button';
 import { StickerRender } from '../../components/ui/PixelCats';
@@ -18,6 +18,15 @@ export default function GreetingView() {
   const [greeting, setGreeting] = useState<Greeting | null>(null);
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const dataParam = params.get('data');
+    if (dataParam) {
+      const decoded = decodeDataFromUrl(dataParam);
+      if (decoded) {
+        setGreeting(decoded);
+        return;
+      }
+    }
     if (id) {
       const data = getGreeting(id);
       setGreeting(data);

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Greeting } from '../../types/greeting';
 import { Button } from '../../components/ui/Button';
-import { saveGreeting } from '../../utils/storage';
+import { saveGreeting, encodeDataToUrl } from '../../utils/storage';
 import styles from './Create.module.css';
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 export default function Step4Share({ greeting }: Props) {
   const [copied, setCopied] = useState(false);
   const [saved, setSaved] = useState(false);
-  const link = `${window.location.origin}/g/${greeting.id}`;
+  const link = `${window.location.origin}/g/${greeting.id}?data=${encodeDataToUrl(greeting)}`;
 
   const handleSave = () => {
     saveGreeting(greeting);
