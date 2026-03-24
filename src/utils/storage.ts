@@ -22,6 +22,30 @@ export const decodeDataFromUrl = (encoded: string): any => {
   }
 };
 
+export const saveGreetingToServer = async (greeting: Greeting) => {
+  try {
+    await fetch('/api/saveGreeting', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(greeting)
+    });
+  } catch (e) {
+    console.error('Failed to save to server', e);
+  }
+};
+
+export const fetchGreetingFromServer = async (id: string): Promise<Greeting | null> => {
+  try {
+    const res = await fetch(`/api/getGreeting?id=${id}`);
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (e) {
+    console.error('Failed to fetch from server', e);
+  }
+  return null;
+};
+
 export const getSession = (): Session => {
   try {
     const data = localStorage.getItem(SESSION_KEY);

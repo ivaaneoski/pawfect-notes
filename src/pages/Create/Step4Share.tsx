@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Greeting } from '../../types/greeting';
 import { Button } from '../../components/ui/Button';
-import { saveGreeting, encodeDataToUrl } from '../../utils/storage';
+import { saveGreeting, saveGreetingToServer } from '../../utils/storage';
 import styles from './Create.module.css';
 
 interface Props {
@@ -11,10 +11,14 @@ interface Props {
 export default function Step4Share({ greeting }: Props) {
   const [copied, setCopied] = useState(false);
   const [saved, setSaved] = useState(false);
-  const link = `${window.location.origin}/g/${greeting.id}#data=${encodeDataToUrl(greeting)}`;
+  const [isSaving, setIsSaving] = useState(false);
+  const link = `${window.location.origin}/g/${greeting.id}`;
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    setIsSaving(true);
     saveGreeting(greeting);
+    await saveGreetingToServer(greeting);
+    setIsSaving(false);
     setSaved(true);
   };
 
@@ -29,7 +33,7 @@ export default function Step4Share({ greeting }: Props) {
       <div className={styles.stepContainer} style={{ textAlign: 'center' }}>
         <h2 className={styles.stepTitle}>Ready to purr?</h2>
         <p style={{ marginBottom: '24px', color: 'var(--color-deep-taupe)' }}>Your personalized greeting has been constructed. Save it to instantly generate your paw print link.</p>
-        <Button onClick={handleSave}>Generate Link</Button>
+        <Button onClick={handleSave} disabled={isSaving}>{isSaving ? 'Generating...' : 'Generate Link'}</Button>
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getGreeting, decodeDataFromUrl } from '../../utils/storage';
+import { getGreeting, decodeDataFromUrl, fetchGreetingFromServer } from '../../utils/storage';
 import type { Greeting } from '../../types/greeting';
 import { Button } from '../../components/ui/Button';
 import { StickerRender } from '../../components/ui/PixelCats';
@@ -16,25 +16,47 @@ const corners = [
 export default function GreetingView() {
   const { id } = useParams<{ id: string }>();
   const [greeting, setGreeting] = useState<Greeting | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    let dataParam = new URLSearchParams(window.location.search).get('data');
-    if (!dataParam) {
-      const match = window.location.hash.match(/#data=(.*)/);
-      if (match) dataParam = match[1];
-    }
-    if (dataParam) {
-      const decoded = decodeDataFromUrl(dataParam);
-      if (decoded) {
-        setGreeting(decoded);
-        return;
+    const fetchData = async () => {
+      let dataParam = new URLSearchParams(window.location.search).get('data');
+      if (!dataParam) {
+        const match = window.location.hash.match(/#data=(.*)/);
+        if (match) dataParam = match[1];
       }
-    }
-    if (id) {
-      const data = getGreeting(id);
-      setGreeting(data);
-    }
+      if (dataParam) {
+        const decoded = decodeDataFromUrl(dataParam);
+        if (decoded) {
+          setGreeting(decoded);
+          setIsLoading(false);
+          return;
+        }
+      }
+
+      if (id) {
+        const serverData = await fetchGreetingFromServer(id);
+        if (serverData) {
+          setGreeting(serverData);
+          setIsLoading(false);
+          return;
+        }
+        
+        const localData = getGreeting(id);
+        setGreeting(localData);
+      }
+      setIsLoading(false);
+    };
+    fetchData();
   }, [id]);
+
+  if (isLoading) {
+    return (
+      <div className={styles.viewport} style={{ backgroundColor: 'var(--color-cream)' }}>
+        <p style={{ color: 'var(--color-ink)', textAlign: 'center', paddingTop: '100px', fontFamily: 'var(--font-body)' }}>Opening your pawfect note...</p>
+      </div>
+    );
+  }
 
   if (!greeting) {
     return (
