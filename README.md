@@ -149,7 +149,7 @@ pawfect-notes/
 
 | Landing Page | Creator Wizard | Greeting Page |
 |---|---|---|
-| *(Add screenshot)* | *(Add screenshot)* | *(Add screenshot)* |
+| <img width="1900" height="867" alt="Screenshot 2026-03-24 121416" src="https://github.com/user-attachments/assets/caddeb0e-153a-4564-9019-ad1cf3ae87da" /> |  <img width="1898" height="866" alt="Screenshot 2026-03-24 121443" src="https://github.com/user-attachments/assets/45636f99-dd06-4872-9026-437e88bf04c4" /> |<img width="1915" height="866" alt="Screenshot 2026-03-24 121531" src="https://github.com/user-attachments/assets/6bcbc535-4bdf-47c7-935c-961b728b89d3" /> |
 
 > Drag and drop images into the table on GitHub to add screenshots.
 
