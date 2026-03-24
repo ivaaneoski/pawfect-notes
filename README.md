@@ -29,7 +29,7 @@ Oh, and pixel cats rain down on the landing page. It's a feature.
 ## ✨ Features
 
 ### 🧙 Immersive 4-Step Creator Wizard
-A smooth, guided flow to compose your greeting — choose a theme, write your message, upload images, and embed a YouTube link — all without leaving the page.
+A smooth, guided flow to compose your greeting choose a theme, write your message, upload images, and embed a YouTube link — all without leaving the page.
 
 ### 🎨 7 Curated Pixel-Aesthetic Themes
 Each theme is a fully realized visual identity with custom color tokens, backgrounds, and typography. Current themes include:
