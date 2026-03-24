@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🐾 PawfectNotes
+# 😼 PawfectNotes
 
 ### *"Send love that stays."*
 
