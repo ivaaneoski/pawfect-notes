@@ -11,7 +11,7 @@ interface Props {
 export default function Step4Share({ greeting }: Props) {
   const [copied, setCopied] = useState(false);
   const [saved, setSaved] = useState(false);
-  const link = `${window.location.origin}/g/${greeting.id}?data=${encodeDataToUrl(greeting)}`;
+  const link = `${window.location.origin}/g/${greeting.id}#data=${encodeDataToUrl(greeting)}`;
 
   const handleSave = () => {
     saveGreeting(greeting);

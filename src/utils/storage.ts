@@ -1,11 +1,13 @@
 import type { Greeting, Session } from '../types/greeting';
 
+import LZString from 'lz-string';
+
 const SESSION_KEY = 'pawfect_session';
 const GREETING_PREFIX = 'greeting_';
 
 export const encodeDataToUrl = (data: any): string => {
   try {
-    return encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
+    return LZString.compressToEncodedURIComponent(JSON.stringify(data));
   } catch (e) {
     return '';
   }
@@ -13,7 +15,8 @@ export const encodeDataToUrl = (data: any): string => {
 
 export const decodeDataFromUrl = (encoded: string): any => {
   try {
-    return JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(encoded)))));
+    const json = LZString.decompressFromEncodedURIComponent(encoded);
+    return json ? JSON.parse(json) : null;
   } catch (e) {
     return null;
   }
@@ -83,8 +86,8 @@ export const deleteGreeting = (id: string) => {
   }
 }
 
-// Basic image compression utility to prevent localstorage capping out quickly (limit 5MB).
-export const compressImage = (base64: string, maxWidth = 1000): Promise<string> => {
+// Basic image compression utility to aggressively shrink base64 URL limits.
+export const compressImage = (base64: string, maxWidth = 400): Promise<string> => {
   return new Promise((resolve) => {
     const img = new Image();
     img.src = base64;
@@ -102,7 +105,7 @@ export const compressImage = (base64: string, maxWidth = 1000): Promise<string> 
       const ctx = canvas.getContext('2d');
       if (ctx) {
         ctx.drawImage(img, 0, 0, width, height);
-        resolve(canvas.toDataURL('image/jpeg', 0.8));
+        resolve(canvas.toDataURL('image/jpeg', 0.6));
       } else {
         resolve(base64); // Fallback
       }

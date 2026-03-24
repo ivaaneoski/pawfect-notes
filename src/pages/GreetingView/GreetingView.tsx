@@ -18,8 +18,11 @@ export default function GreetingView() {
   const [greeting, setGreeting] = useState<Greeting | null>(null);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const dataParam = params.get('data');
+    let dataParam = new URLSearchParams(window.location.search).get('data');
+    if (!dataParam) {
+      const match = window.location.hash.match(/#data=(.*)/);
+      if (match) dataParam = match[1];
+    }
     if (dataParam) {
       const decoded = decodeDataFromUrl(dataParam);
       if (decoded) {
