@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import Home from './pages/Home/Home';
 import Create from './pages/Create/Create';
 import GreetingView from './pages/GreetingView/GreetingView';
@@ -15,6 +16,7 @@ function App() {
         <Route path="/g/:id" element={<GreetingView />} />
         <Route path="/my-greetings" element={<MyGreetings />} />
       </Routes>
+      <Analytics />
     </Router>
   );
 }
