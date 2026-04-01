@@ -5,6 +5,12 @@
   background-color: var(--color-soft-white);
 }
 
+@media (max-width: 768px) {
+  .container {
+    padding-bottom: 80px; /* Space for fixed bottom nav */
+  }
+}
+
 .header {
   padding: var(--spacing-3) var(--spacing-4);
   display: flex;
@@ -25,6 +31,24 @@
   gap: var(--spacing-3);
 }
 
+@media (max-width: 768px) {
+  .nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--color-cream);
+    border-top: 1px solid var(--color-warm-gray);
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.03);
+    padding: var(--spacing-1) var(--spacing-4);
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+    height: 64px;
+    margin: 0;
+  }
+}
+
 .navLink {
   font-family: var(--font-body);
   color: var(--color-deep-taupe);
@@ -32,6 +56,12 @@
   font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px;
 }
 
 .navLink:hover {
@@ -53,7 +83,7 @@
 
 .title {
   font-family: var(--font-display);
-  font-size: 3rem;
+  font-size: clamp(2rem, 6vw, 3rem);
   color: var(--color-ink);
   margin-bottom: var(--spacing-1);
 }
@@ -75,6 +105,12 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: var(--spacing-4);
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .card {

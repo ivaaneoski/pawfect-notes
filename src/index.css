@@ -109,3 +109,13 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+/* Mobile Responsiveness & Accessibility Fixes */
+input, textarea {
+  font-size: 16px; /* Prevents iOS auto-zoom */
+}
+
+button, a, input, textarea {
+  touch-action: manipulation; /* Removes 300ms tap delay */
+}
+

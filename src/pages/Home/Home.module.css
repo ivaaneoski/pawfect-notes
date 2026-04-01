@@ -4,6 +4,12 @@
   flex-direction: column;
 }
 
+@media (max-width: 768px) {
+  .container {
+    padding-bottom: 80px; /* Space for fixed bottom nav */
+  }
+}
+
 .header {
   padding: var(--spacing-3) var(--spacing-4);
   display: flex;
@@ -22,10 +28,33 @@
   gap: var(--spacing-3);
 }
 
+@media (max-width: 768px) {
+  .nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--color-soft-white);
+    border-top: 1px solid var(--color-warm-gray);
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.03);
+    padding: var(--spacing-1) var(--spacing-4);
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+    height: 64px;
+  }
+}
+
 .navLink {
   font-family: var(--font-body);
   color: var(--color-deep-taupe);
   transition: color 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px;
 }
 
 .navLink:hover {
@@ -42,7 +71,8 @@
 .heroTitle {
   font-family: 'Pixelify Sans', cursive;
   font-size: clamp(2rem, 6vw, 4.5rem);
-  white-space: nowrap;
+  white-space: normal;
+  line-height: 1.1;
   color: var(--color-ink);
   margin-bottom: var(--spacing-2);
   text-shadow: 4px 4px 0px rgba(0,0,0,0.15);
@@ -118,6 +148,12 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--spacing-3);
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .occasionCard {

@@ -6,6 +6,8 @@
   transition: all 0.15s ease;
   cursor: pointer;
   border-radius: 0; /* Matches brand flat edge style */
+  min-height: 44px;
+  min-width: 44px;
 }
 
 /* Primary Button */
