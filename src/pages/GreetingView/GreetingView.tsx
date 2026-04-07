@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getGreeting, decodeDataFromUrl, fetchGreetingFromServer } from '../../utils/storage';
+import { getGreeting, decodeDataFromUrl, fetchGreetingFromServer, saveGreeting } from '../../utils/storage';
 import type { Greeting } from '../../types/greeting';
 import { Button } from '../../components/ui/Button';
 import { StickerRender } from '../../components/ui/PixelCats';
+import { downloadGreetingAsHtml, isGreetingSavedLocally } from '../../utils/greetingDownload';
 import styles from './GreetingView.module.css';
 
 const corners = [
@@ -13,10 +14,17 @@ const corners = [
   { bottom: -20, right: -20, rot: -10 }
 ];
 
+const getYoutubeEmbedId = (youtubeUrl: string | null) => {
+  if (!youtubeUrl) return '';
+  const match = youtubeUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+  return match?.[1] ?? '';
+};
+
 export default function GreetingView() {
   const { id } = useParams<{ id: string }>();
   const [greeting, setGreeting] = useState<Greeting | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [savedNotice, setSavedNotice] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +49,7 @@ export default function GreetingView() {
           setIsLoading(false);
           return;
         }
-        
+
         const localData = getGreeting(id);
         setGreeting(localData);
       }
@@ -70,18 +78,20 @@ export default function GreetingView() {
     );
   }
 
-  // Extract YouTube ID for embed loop
-  let youtubeId = '';
-  if (greeting.youtubeUrl) {
-    const match = greeting.youtubeUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
-    if (match && match[1]) {
-      youtubeId = match[1];
-    }
-  }
+  const youtubeId = getYoutubeEmbedId(greeting.youtubeUrl);
+  const isSavedLocally = savedNotice || isGreetingSavedLocally(greeting.id);
+
+  const handleSaveToLibrary = () => {
+    saveGreeting(greeting);
+    setSavedNotice(true);
+  };
+
+  const handleDownload = () => {
+    downloadGreetingAsHtml(greeting);
+  };
 
   return (
     <div className={styles.viewport} style={{ backgroundColor: greeting.backgroundColor }}>
-      {/* Decorative background container */}
       <div className={styles.decoLayer}></div>
 
       <main className={styles.container}>
@@ -100,12 +110,12 @@ export default function GreetingView() {
           {greeting.images && greeting.images.length > 0 && (
             <section className={styles.imagesGrid} style={{ position: 'relative' }}>
               {greeting.stickers?.map((s, idx) => {
-                 const c = corners[idx % 4];
-                 return (
-                   <div key={idx} style={{ position: 'absolute', top: c.top, bottom: c.bottom, left: c.left, right: c.right, transform: `rotate(${c.rot}deg)`, zIndex: 10 }}>
-                     <StickerRender type={s.type} style={{ width: 48 }} />
-                   </div>
-                 );
+                const c = corners[idx % 4];
+                return (
+                  <div key={idx} style={{ position: 'absolute', top: c.top, bottom: c.bottom, left: c.left, right: c.right, transform: `rotate(${c.rot}deg)`, zIndex: 10 }}>
+                    <StickerRender type={s.type} style={{ width: 48 }} />
+                  </div>
+                );
               })}
               {greeting.images.map((img, i) => (
                 <div key={i} className={styles.imageWrapper}>
@@ -118,20 +128,22 @@ export default function GreetingView() {
           {greeting.message && (
             <section className={styles.messageSection} style={{ position: 'relative' }}>
               {greeting.stickers?.map((s, idx) => {
-                 const c = corners[idx % 4];
-                 return (
-                   <div key={`msg-${idx}`} style={{ position: 'absolute', top: c.top !== undefined ? c.top + 4 : undefined, bottom: c.bottom !== undefined ? c.bottom + 4 : undefined, left: c.left !== undefined ? c.left + 4 : undefined, right: c.right !== undefined ? c.right + 4 : undefined, transform: `rotate(${c.rot}deg)`, zIndex: 10 }}>
-                     <StickerRender type={s.type} style={{ width: 48 }} />
-                   </div>
-                 );
+                const c = corners[idx % 4];
+                return (
+                  <div key={`msg-${idx}`} style={{ position: 'absolute', top: c.top !== undefined ? c.top + 4 : undefined, bottom: c.bottom !== undefined ? c.bottom + 4 : undefined, left: c.left !== undefined ? c.left + 4 : undefined, right: c.right !== undefined ? c.right + 4 : undefined, transform: `rotate(${c.rot}deg)`, zIndex: 10 }}>
+                    <StickerRender type={s.type} style={{ width: 48 }} />
+                  </div>
+                );
               })}
-              <div style={{ 
-                fontFamily: greeting.messageStyle === 'handwritten' ? 'var(--font-accent)' : 'var(--font-mono)',
-                fontSize: greeting.messageStyle === 'handwritten' ? '1.5rem' : '1.125rem',
-                lineHeight: greeting.messageStyle === 'handwritten' ? '1.8' : '1.8',
-                color: 'var(--color-ink)',
-                whiteSpace: 'pre-wrap'
-              }}>
+              <div
+                style={{
+                  fontFamily: greeting.messageStyle === 'handwritten' ? 'var(--font-accent)' : 'var(--font-mono)',
+                  fontSize: greeting.messageStyle === 'handwritten' ? '1.5rem' : '1.125rem',
+                  lineHeight: '1.8',
+                  color: 'var(--color-ink)',
+                  whiteSpace: 'pre-wrap'
+                }}
+              >
                 {greeting.message}
               </div>
             </section>
@@ -139,13 +151,13 @@ export default function GreetingView() {
 
           {youtubeId && (
             <section className={styles.videoSection}>
-              <iframe 
-                width="100%" 
-                height="315" 
-                src={`https://www.youtube.com/embed/${youtubeId}`} 
-                title="YouTube video player" 
-                frameBorder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              <iframe
+                width="100%"
+                height="315"
+                src={`https://www.youtube.com/embed/${youtubeId}`}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 style={{ borderRadius: 'var(--border-radius-card)' }}
               ></iframe>
@@ -153,7 +165,18 @@ export default function GreetingView() {
           )}
 
           <footer className={styles.footer}>
-            <p>Made with ♥ on PawfectNotes</p>
+            <p>Made with PawfectNotes</p>
+            <div className={styles.actionRow}>
+              <Button variant="secondary" onClick={handleSaveToLibrary}>
+                {isSavedLocally ? 'Saved to My Greetings' : 'Save to My Greetings'}
+              </Button>
+              <Button variant="ghost" onClick={handleDownload}>
+                Download Greeting
+              </Button>
+            </div>
+            {isSavedLocally && (
+              <p className={styles.savedHint}>This greeting is now saved in your browser on this device.</p>
+            )}
             <div style={{ marginTop: '16px' }}>
               <Link to="/create"><Button variant="secondary">Create your own</Button></Link>
             </div>
